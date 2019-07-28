@@ -7,6 +7,7 @@ import kz.azatserzhanov.test.common.BasePresenter
 import kz.azatserzhanov.test.currency.contract.MainContract
 import kz.azatserzhanov.test.currency.interactor.CurrencyInteractor
 import kz.azatserzhanov.test.currency.model.Currency
+import kz.azatserzhanov.test.currency.model.CurrencyItem
 
 class MainPresenter(private val currencyInteractor: CurrencyInteractor) : BasePresenter<MainContract.View>(),
     MainContract.Presenter {
@@ -23,6 +24,7 @@ class MainPresenter(private val currencyInteractor: CurrencyInteractor) : BasePr
                     currency = result
                     setResultCurrencyValue()
                     view?.showResultButton(true)
+                    setCurrencyList()
                 },
                 { error -> error.printStackTrace() }
             )
@@ -63,5 +65,10 @@ class MainPresenter(private val currencyInteractor: CurrencyInteractor) : BasePr
                 Log.d("azat", "setCurrencyResult: $resultCurrencyValue")
             }
         }
+    }
+
+    override fun setCurrencyList() {
+        val list = currency?.rates?.map { CurrencyItem(it.key, it.value) }
+        list?.let { view?.showCurrencyList(it) }
     }
 }

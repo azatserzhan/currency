@@ -1,15 +1,18 @@
 package kz.azatserzhanov.test.currency.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.currency_fragment.*
 import kz.azatserzhanov.test.R
 import kz.azatserzhanov.test.common.BaseFragment
 import kz.azatserzhanov.test.currency.contract.MainContract
+import kz.azatserzhanov.test.currency.model.CurrencyItem
 import kz.azatserzhanov.test.currency.presenter.MainPresenter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -47,6 +50,22 @@ class CurrencyFragment : BaseFragment<MainContract.View, MainContract.Presenter>
         showResultButton.isVisible = state
     }
 
+    override fun showCurrencyList(list: List<CurrencyItem>) {
+        val currencyAdapter = CurrencyAdapter(
+            clickListener = {
+                currencyClick(it)
+            }
+        )
+
+        val currencyManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        currenciesRecyclerView.apply {
+            layoutManager = currencyManager
+            adapter = currencyAdapter
+        }
+
+        currencyAdapter.addItems(list)
+    }
+
     private fun setupViews() {
         var isCurrentEditTextClicked = true
 
@@ -77,5 +96,13 @@ class CurrencyFragment : BaseFragment<MainContract.View, MainContract.Presenter>
             }
             false
         }
+
+        resultTextView.setOnClickListener {
+            presenter.setCurrencyList()
+        }
+    }
+
+    private fun currencyClick(position: Int) {
+        Log.d("azat", "position: $position")
     }
 }
