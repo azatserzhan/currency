@@ -6,9 +6,13 @@ import io.reactivex.schedulers.Schedulers
 import kz.azatserzhanov.test.common.BasePresenter
 import kz.azatserzhanov.test.currency.interactor.CurrencyInteractor
 import kz.azatserzhanov.test.currency.contract.MainContract
+import kz.azatserzhanov.test.currency.model.Currency
 
 class MainPresenter(private val currencyInteractor: CurrencyInteractor) : BasePresenter<MainContract.View>(),
     MainContract.Presenter {
+    private var currency: Currency? = null
+    private val resultCurrencyName = "RUB"
+    private var resultCurrencyValue = 0.0
 
     override fun loadCurrency() {
         currencyInteractor.getCurrency()
@@ -16,10 +20,34 @@ class MainPresenter(private val currencyInteractor: CurrencyInteractor) : BasePr
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 { result ->
-                    Log.d("Currency", "There are ${result.base}")
-                }, { error ->
-                    error.printStackTrace()
-                }
+                    currency = result
+                    setResultCurrencyValue()
+                },
+                { error -> error.printStackTrace() }
             )
+    }
+
+    override fun setCurrencyResult(inputValue: Double) {
+        currency?.rates?.entries?.forEachIndexed { index, entry ->
+            if(entry.key == resultCurrencyName){
+                val result = entry.value * inputValue
+                view?.showResultCurrency(result.toString())
+                Log.d("azat", "setCurrencyResult: $result")
+            }
+        }
+    }
+
+    override fun currentCurrencyChange(inputValue: Double) {
+        val result = inputValue * resultCurrencyValue
+        view?.showResultCurrency(result.toString())
+    }
+
+    private fun setResultCurrencyValue(){
+        currency?.rates?.entries?.forEachIndexed { index, entry ->
+            if(entry.key == resultCurrencyName){
+                resultCurrencyValue = entry.value
+                Log.d("azat", "setCurrencyResult: $resultCurrencyValue")
+            }
+        }
     }
 }

@@ -18,7 +18,7 @@
             android:hint="EUR"
             android:inputType="number"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"/>
 
     <EditText
             android:id="@+id/resultEditText"
@@ -28,7 +28,7 @@
             android:layout_marginTop="8dp"
             android:inputType="number"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/currentEditText" />
+            app:layout_constraintTop_toBottomOf="@+id/currentEditText"/>
 
     <TextView
             android:id="@+id/currentTextView"
@@ -39,7 +39,7 @@
             android:padding="12dp"
             android:text="EUR"
             app:layout_constraintStart_toEndOf="@+id/currentEditText"
-            app:layout_constraintTop_toTopOf="@+id/currentEditText" />
+            app:layout_constraintTop_toTopOf="@+id/currentEditText"/>
 
     <TextView
             android:id="@+id/resultTextView"
@@ -48,16 +48,25 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:padding="12dp"
-            android:text="KZT"
+            android:text="RUB"
             app:layout_constraintStart_toEndOf="@+id/resultEditText"
-            app:layout_constraintTop_toTopOf="@+id/resultEditText" />
+            app:layout_constraintTop_toTopOf="@+id/resultEditText"/>
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/resultRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/resultTextView" />
+            app:layout_constraintTop_toBottomOf="@+id/resultTextView"/>
+
+    <Button
+            android:id="@+id/showResultButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Show result"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/resultRecyclerView"
+    />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
