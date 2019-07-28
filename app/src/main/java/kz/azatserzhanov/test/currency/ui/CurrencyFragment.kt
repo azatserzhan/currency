@@ -107,6 +107,6 @@ class CurrencyFragment : BaseFragment<MainContract.View, MainContract.Presenter>
 
     private fun currencyClick(position: Int) {
         Log.d("azat", "position: $position")
-        presenter.changResultCurrency(position)
+        presenter.changResultCurrencyValue(position)
     }
 }

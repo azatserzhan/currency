@@ -73,7 +73,7 @@ class MainPresenter(private val currencyInteractor: CurrencyInteractor) : BasePr
         currencyItems?.let { view?.showCurrencyList(it) }
     }
 
-    override fun changResultCurrency(position: Int) {
+    override fun changResultCurrencyValue(position: Int) {
         currencyItems?.let {
             resultCurrencyName = it[position].name
             resultCurrencyValue = it[position].value

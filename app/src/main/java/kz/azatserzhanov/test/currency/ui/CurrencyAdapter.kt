@@ -15,24 +15,21 @@ class CurrencyAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return BotViewHolder(inflater, parent)
+        return CurrencyViewHolder(inflater, parent)
     }
 
     override fun getItemCount(): Int = currencies.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as BotViewHolder).bind(currencies[position], clickListener)
+        (holder as CurrencyViewHolder).bind(currencies[position], clickListener)
     }
 
     fun addItems(list: List<CurrencyItem>) {
         currencies.addAll(list)
-        // notifyItemRangeInserted(currencies.size + 1, currencies.size)
         notifyDataSetChanged()
     }
 
-    fun getItem(position: Int): CurrencyItem = currencies[position]
-
-    private class BotViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
+    private class CurrencyViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
         RecyclerView.ViewHolder(inflater.inflate(R.layout.item_currency, parent, false)) {
         private val currencyTextView = itemView.currencyTextView
 

@@ -21,6 +21,6 @@ interface MainContract {
         fun resultCurrencyChange(inputValue: Double)
         fun chooseCurrency(isCurrent: Boolean, inputValue: Double)
         fun setCurrencyList()
-        fun changResultCurrency(position: Int)
+        fun changResultCurrencyValue(position: Int)
     }
 }
