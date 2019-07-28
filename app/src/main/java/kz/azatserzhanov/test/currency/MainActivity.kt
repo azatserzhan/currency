@@ -5,20 +5,15 @@ import android.view.Menu
 import android.view.MenuItem
 import kz.azatserzhanov.test.R
 import kz.azatserzhanov.test.common.BaseActivity
-import kz.azatserzhanov.test.currency.contract.MainContract
-import kz.azatserzhanov.test.currency.presenter.MainPresenter
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import kz.azatserzhanov.test.currency.ui.CurrencyFragment
 
-class MainActivity : BaseActivity(),
-    MainContract.View,
-    MainContract {
-    private val presenter: MainPresenter by viewModel()
+class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        presenter.loadCurrency()
+        addFragment(CurrencyFragment.create())
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -35,9 +30,5 @@ class MainActivity : BaseActivity(),
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
         }
-    }
-
-    override fun showCurrency() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

@@ -3,6 +3,7 @@ package kz.azatserzhanov.test.common
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import kz.azatserzhanov.test.R
 
 abstract class BaseActivity : AppCompatActivity() {
@@ -38,5 +39,9 @@ abstract class BaseActivity : AppCompatActivity() {
         } else {
             super.onBackPressed()
         }
+    }
+
+    fun clearBackstack() {
+        supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
 }
