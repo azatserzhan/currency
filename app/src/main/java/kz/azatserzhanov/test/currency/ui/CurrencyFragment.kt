@@ -1,12 +1,11 @@
 package kz.azatserzhanov.test.currency.ui
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import kotlinx.android.synthetic.main.currency_fragment.*
 import kz.azatserzhanov.test.R
 import kz.azatserzhanov.test.common.BaseFragment
@@ -40,9 +39,43 @@ class CurrencyFragment : BaseFragment<MainContract.View, MainContract.Presenter>
         resultEditText.setText(total)
     }
 
+    override fun showCurrentCurrency(total: String) {
+        currentEditText.setText(total)
+    }
+
+    override fun showResultButton(state: Boolean) {
+        showResultButton.isVisible = state
+    }
+
     private fun setupViews() {
+        var isCurrentEditTextClicked = true
+
         showResultButton.setOnClickListener {
-            presenter.currentCurrencyChange(currentEditText.text.toString().toDouble())
+            if (isCurrentEditTextClicked) {
+                if (currentEditText.text.isNotEmpty()) {
+                    val result = currentEditText.text.toString().toDouble()
+                    presenter.chooseCurrency(true, result)
+                }
+            } else {
+                if (resultEditText.text.isNotEmpty()) {
+                    val result = resultEditText.text.toString().toDouble()
+                    presenter.chooseCurrency(false, result)
+                }
+            }
+        }
+
+        resultEditText.setOnTouchListener { v, event ->
+            if (event.action == MotionEvent.ACTION_UP) {
+                isCurrentEditTextClicked = false
+            }
+            false
+        }
+
+        currentEditText.setOnTouchListener { v, event ->
+            if (event.action == MotionEvent.ACTION_UP) {
+                isCurrentEditTextClicked = true
+            }
+            false
         }
     }
 }

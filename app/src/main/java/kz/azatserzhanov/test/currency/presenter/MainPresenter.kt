@@ -4,8 +4,8 @@ import android.util.Log
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kz.azatserzhanov.test.common.BasePresenter
-import kz.azatserzhanov.test.currency.interactor.CurrencyInteractor
 import kz.azatserzhanov.test.currency.contract.MainContract
+import kz.azatserzhanov.test.currency.interactor.CurrencyInteractor
 import kz.azatserzhanov.test.currency.model.Currency
 
 class MainPresenter(private val currencyInteractor: CurrencyInteractor) : BasePresenter<MainContract.View>(),
@@ -22,6 +22,7 @@ class MainPresenter(private val currencyInteractor: CurrencyInteractor) : BasePr
                 { result ->
                     currency = result
                     setResultCurrencyValue()
+                    view?.showResultButton(true)
                 },
                 { error -> error.printStackTrace() }
             )
@@ -29,7 +30,7 @@ class MainPresenter(private val currencyInteractor: CurrencyInteractor) : BasePr
 
     override fun setCurrencyResult(inputValue: Double) {
         currency?.rates?.entries?.forEachIndexed { index, entry ->
-            if(entry.key == resultCurrencyName){
+            if (entry.key == resultCurrencyName) {
                 val result = entry.value * inputValue
                 view?.showResultCurrency(result.toString())
                 Log.d("azat", "setCurrencyResult: $result")
@@ -42,9 +43,22 @@ class MainPresenter(private val currencyInteractor: CurrencyInteractor) : BasePr
         view?.showResultCurrency(result.toString())
     }
 
-    private fun setResultCurrencyValue(){
+    override fun resultCurrencyChange(inputValue: Double) {
+        val result = inputValue / resultCurrencyValue
+        view?.showCurrentCurrency(result.toString())
+    }
+
+    override fun chooseCurrency(isCurrent: Boolean, inputValue: Double) {
+        if (isCurrent) {
+            currentCurrencyChange(inputValue)
+        } else {
+            resultCurrencyChange(inputValue)
+        }
+    }
+
+    private fun setResultCurrencyValue() {
         currency?.rates?.entries?.forEachIndexed { index, entry ->
-            if(entry.key == resultCurrencyName){
+            if (entry.key == resultCurrencyName) {
                 resultCurrencyValue = entry.value
                 Log.d("azat", "setCurrencyResult: $resultCurrencyValue")
             }

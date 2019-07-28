@@ -7,11 +7,15 @@ interface MainContract {
 
     interface View : MvpView {
         fun showResultCurrency(total: String)
+        fun showCurrentCurrency(total: String)
+        fun showResultButton(isVisible: Boolean)
     }
 
     interface Presenter : MvpPresenter<View> {
         fun loadCurrency()
         fun setCurrencyResult(inputValue: Double)
         fun currentCurrencyChange(inputValue: Double)
+        fun resultCurrencyChange(inputValue: Double)
+        fun chooseCurrency(isCurrent: Boolean, inputValue: Double)
     }
 }
