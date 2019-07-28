@@ -12,7 +12,8 @@ import kz.azatserzhanov.test.currency.model.CurrencyItem
 class MainPresenter(private val currencyInteractor: CurrencyInteractor) : BasePresenter<MainContract.View>(),
     MainContract.Presenter {
     private var currency: Currency? = null
-    private val resultCurrencyName = "RUB"
+    private var currencyItems: List<CurrencyItem>? = null
+    private var resultCurrencyName = "RUB"
     private var resultCurrencyValue = 0.0
 
     override fun loadCurrency() {
@@ -68,7 +69,16 @@ class MainPresenter(private val currencyInteractor: CurrencyInteractor) : BasePr
     }
 
     override fun setCurrencyList() {
-        val list = currency?.rates?.map { CurrencyItem(it.key, it.value) }
-        list?.let { view?.showCurrencyList(it) }
+        currencyItems = currency?.rates?.map { CurrencyItem(it.key, it.value) }
+        currencyItems?.let { view?.showCurrencyList(it) }
+    }
+
+    override fun changResultCurrency(position: Int) {
+        currencyItems?.let {
+            resultCurrencyName = it[position].name
+            resultCurrencyValue = it[position].value
+
+            view?.showResultValueText(it[position].name)
+        }
     }
 }

@@ -11,6 +11,7 @@ interface MainContract {
         fun showCurrentCurrency(total: String)
         fun showResultButton(isVisible: Boolean)
         fun showCurrencyList(list: List<CurrencyItem>)
+        fun showResultValueText(text: String)
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -20,5 +21,6 @@ interface MainContract {
         fun resultCurrencyChange(inputValue: Double)
         fun chooseCurrency(isCurrent: Boolean, inputValue: Double)
         fun setCurrencyList()
+        fun changResultCurrency(position: Int)
     }
 }

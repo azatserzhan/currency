@@ -27,6 +27,7 @@ class CurrencyFragment : BaseFragment<MainContract.View, MainContract.Presenter>
     private val presenterImpl: MainPresenter by viewModel()
     override val presenter: MainContract.Presenter
         get() = presenterImpl
+    private var isCurrentEditTextClicked = true
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
         inflater.inflate(R.layout.currency_fragment, container, false)
@@ -66,9 +67,11 @@ class CurrencyFragment : BaseFragment<MainContract.View, MainContract.Presenter>
         currencyAdapter.addItems(list)
     }
 
-    private fun setupViews() {
-        var isCurrentEditTextClicked = true
+    override fun showResultValueText(text: String) {
+        resultTextView.text = text
+    }
 
+    private fun setupViews() {
         showResultButton.setOnClickListener {
             if (isCurrentEditTextClicked) {
                 if (currentEditText.text.isNotEmpty()) {
@@ -104,5 +107,6 @@ class CurrencyFragment : BaseFragment<MainContract.View, MainContract.Presenter>
 
     private fun currencyClick(position: Int) {
         Log.d("azat", "position: $position")
+        presenter.changResultCurrency(position)
     }
 }
